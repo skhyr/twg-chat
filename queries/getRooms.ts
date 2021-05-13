@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client"
+import { RoomsType } from '../types/api'
 
 export const GET_ROOMS = gql`
 {
@@ -17,3 +18,5 @@ export const GET_ROOMS = gql`
     }
 }
 `
+
+export type GET_ROOMS_TYPE = { usersRooms: Partial<RoomsType> } | undefined;
