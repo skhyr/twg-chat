@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ApolloClient, InMemoryCache, useQuery, ApolloProvider } from '@apollo/client';
 import { GET_ROOMS } from './queries/getRooms';
 import apolloClient from './queries/apolloClient';
-
+import HomeStack from './routes/HomeStack';
+import { NavigationContainer } from '@react-navigation/native';
+import HomeStackNavigator from './routes/HomeStack';
+import LoginStackNavigator from './routes/LoginStack';
 
 apolloClient.query({
   query: GET_ROOMS
@@ -13,12 +16,24 @@ apolloClient.query({
 
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [token, setToken] = useState(true);
+
+  if(isLoading) return(
+    <View>
+      <Text>Loading</Text>
+    </View>
+  )
+
 
   return (
     <ApolloProvider client={apolloClient}>
-      <View style={styles.container}>
-        <Text>{JSON.stringify({})}</Text>
-      </View>
+      <NavigationContainer>
+        {token
+          ? <HomeStackNavigator />
+          : <LoginStackNavigator /> 
+        }
+      </NavigationContainer>
     </ApolloProvider>
   );
 }
