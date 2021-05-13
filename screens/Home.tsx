@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { GET_ROOMS, GET_ROOMS_TYPE } from "../queries/getRooms";
+import Room from '../components/Room'
 
 export default function Home() {
 
@@ -10,10 +11,7 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <View>{data && data.usersRooms.rooms?.map(room=>(
-        <View style={styles.room} key={room.id}>
-          <Text>{room.id}</Text>
-          <Text>{room.name}</Text>
-        </View>
+        <Room id={room.id} />
       ))}</View>
     </View>
   );
@@ -25,14 +23,4 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: "#F0F8FF",
   },
-
-  room:{
-    height: 80,
-    backgroundColor: 'white',
-    marginVertical: 5,
-    width: '100%',
-    borderRadius: 15,
-    padding: 15,
-  }
-
 });

@@ -9,6 +9,21 @@ type SingleRoomType = {
     roomPic: string,
 }
 
+type RoomType = {
+    id: String,
+    messages: Message[],
+    name: String,
+    roomPic: String,
+    user: UserType
+}
+
+type Message = {
+    body: string,
+    id: ID,
+    intertedAt: string,
+    user: UserType,
+}
+
 type UserType = {
     email: string,
     firstName: string,
@@ -20,4 +35,4 @@ type UserType = {
 
 type ID = string;
 
-export { RoomsType, SingleRoomType, UserType, ID }
+export { RoomsType, SingleRoomType, UserType, ID, RoomType, Message }
