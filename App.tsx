@@ -1,13 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { ApolloClient, InMemoryCache, useQuery, ApolloProvider } from '@apollo/client';
+import { GET_ROOMS } from './queries/getRooms';
+import apolloClient from './queries/apolloClient';
+
+
+apolloClient.query({
+  query: GET_ROOMS
+})
+.then(result => console.log(result))
+.catch(error => console.log(error));
+
 
 export default function App() {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ApolloProvider client={apolloClient}>
+      <View style={styles.container}>
+        <Text>{JSON.stringify({})}</Text>
+      </View>
+    </ApolloProvider>
   );
 }
 
