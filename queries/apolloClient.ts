@@ -1,12 +1,13 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { TOKEN } from '@env'
 
 const httpLink = createHttpLink({
   uri: 'https://chat.thewidlarzgroup.com/api/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = "token";
+  const token = TOKEN;
   return {
     headers: {
       ...headers,
