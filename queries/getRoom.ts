@@ -11,7 +11,7 @@ export const GET_ROOM = gql`
         id
         insertedAt
         user{
-            id
+          id
         }
       }
     }

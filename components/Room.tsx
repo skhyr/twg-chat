@@ -1,7 +1,10 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { GET_ROOM, GET_ROOM_TYPE } from "../queries/getRoom";
+import { useNavigation} from "@react-navigation/core";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { HomeStackParamsList } from "../types/homeStackParams";
 
 interface props {
   id: string;
@@ -13,22 +16,29 @@ export default function Room({ id, name }: props) {
     variables: { id },
   });
 
+  const navigation =
+    useNavigation<StackNavigationProp<HomeStackParamsList, "Home">>();
+
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.roomPic}
-        source={{
-          uri: data?.room.roomPic || undefined,
-        }}
-      />
-      <View style={styles.right}>
-        <Text style={styles.name} numberOfLines={1}>{name}</Text>
-        <Text style={styles.lastMessage} numberOfLines={1}>
-          {data?.room.messages &&
-            data.room.messages[data.room.messages.length - 1]?.body}
-        </Text>
+    <Pressable onPress={()=>navigation.navigate("Chat", {id, messages: data?.room.messages || []})} >
+      <View style={styles.container}>
+        <Image
+          style={styles.roomPic}
+          source={{
+            uri: data?.room.roomPic || undefined,
+          }}
+        />
+        <View style={styles.right}>
+          <Text style={styles.name} numberOfLines={1}>
+            {name}
+          </Text>
+          <Text style={styles.lastMessage} numberOfLines={1}>
+            {data?.room.messages &&
+              data.room.messages[data.room.messages.length - 1]?.body}
+          </Text>
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -51,16 +61,16 @@ const styles = StyleSheet.create({
   right: {
     flex: 1,
     paddingHorizontal: 16,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
   },
   name: {
-    fontFamily: 'Poppins-500',
+    fontFamily: "Poppins-500",
     fontSize: 15,
   },
   lastMessage: {
-    fontFamily: 'Poppins-400',
+    fontFamily: "Poppins-400",
     fontSize: 14,
   },
 });

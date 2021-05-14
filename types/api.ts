@@ -20,7 +20,7 @@ type RoomType = {
 type Message = {
     body: string,
     id: ID,
-    intertedAt: string,
+    insertedAt: string,
     user: UserType,
 }
 
