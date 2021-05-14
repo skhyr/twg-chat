@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
     flex: 1,
     color: "#5603AD",
     fontSize: 36,
-    fontWeight: "700",
+    fontFamily: "Poppins-700",
+    lineHeight: 45
   },
   icon: {
     height: 44,

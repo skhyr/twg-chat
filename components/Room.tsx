@@ -22,8 +22,8 @@ export default function Room({ id, name }: props) {
         }}
       />
       <View style={styles.right}>
-        <Text style={styles.name}>{name}</Text>
-        <Text>
+        <Text style={styles.name} numberOfLines={1}>{name}</Text>
+        <Text style={styles.lastMessage} numberOfLines={1}>
           {data?.room.messages &&
             data.room.messages[data.room.messages.length - 1]?.body}
         </Text>
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 15,
     flexDirection: "row",
+    borderRadius: 12,
   },
   roomPic: {
     height: 64,
@@ -50,13 +51,16 @@ const styles = StyleSheet.create({
   right: {
     flex: 1,
     paddingHorizontal: 16,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   name: {
-    fontWeight: "500",
+    fontFamily: 'Poppins-500',
     fontSize: 15,
   },
   lastMessage: {
-    fontWeight: "400",
+    fontFamily: 'Poppins-400',
     fontSize: 14,
   },
 });
