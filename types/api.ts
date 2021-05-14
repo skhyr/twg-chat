@@ -10,10 +10,10 @@ type SingleRoomType = {
 }
 
 type RoomType = {
-    id: String,
+    id: string,
     messages: Message[],
-    name: String,
-    roomPic: String,
+    name: string,
+    roomPic: string,
     user: UserType
 }
 
