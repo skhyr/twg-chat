@@ -1,10 +1,17 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button, Pressable } from "react-native";
 import { GET_ROOMS, GET_ROOMS_TYPE } from "../queries/getRooms";
 import Room from "../components/Room";
+import { useNavigation} from "@react-navigation/core";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { HomeStackParamsList } from "../types/homeStackParams";
 
-export default function Home() {
+interface props {}
+
+export default function Home({}: props) {
+  const navigation =
+    useNavigation<StackNavigationProp<HomeStackParamsList, "Home">>();
   const { data, loading } = useQuery<GET_ROOMS_TYPE>(GET_ROOMS);
 
   return (
@@ -12,7 +19,12 @@ export default function Home() {
       <View>
         {data &&
           data.usersRooms.rooms?.map((room) => (
-            <Room id={room.id} name={room.name} key={room.id} />
+            <Pressable
+              key={room.id}
+              onPress={() => navigation.navigate('Chat', {id: room.id})}
+            >
+              <Room id={room.id} name={room.name} key={room.id} />
+            </Pressable>
           ))}
       </View>
     </View>
