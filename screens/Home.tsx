@@ -7,15 +7,21 @@ import Room from "../components/Room";
 interface props {}
 
 export default function Home({}: props) {
-  const { data, loading } = useQuery<GET_ROOMS_TYPE>(GET_ROOMS);
-
+  const { data, loading } = useQuery<GET_ROOMS_TYPE>(GET_ROOMS, {
+    pollInterval: 60 * 1000,
+  });
 
   return (
     <View style={styles.container}>
       <View>
         {data &&
           data.usersRooms.rooms?.map((room) => (
-              <Room id={room.id} name={room.name} key={room.id} />
+            <Room
+              id={room.id}
+              name={room.name}
+              key={room.id}
+              userId={data.usersRooms.user?.id || ""}
+            />
           ))}
       </View>
     </View>

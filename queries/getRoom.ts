@@ -2,16 +2,17 @@ import { gql } from "@apollo/client";
 import { RoomType } from "../types/api";
 
 export const GET_ROOM = gql`
-  query Room($id: String!){
+  query Room($id: String!) {
     room(id: $id) {
-      name
       roomPic
+      name
       messages {
-        body
         id
         insertedAt
-        user{
+        body
+        user {
           id
+          profilePic
         }
       }
     }

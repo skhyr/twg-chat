@@ -7,21 +7,22 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { HomeStackParamsList } from "../types/homeStackParams";
 import { Message } from "../types/api";
 import Chat from "../screens/Chat";
+import DefaultProfilePic from "../assets/profile.svg";
 
 interface props {
   id: string;
   name: string;
+  userId: string;
 }
 
-export default function Room({ id, name }: props) {
+export default function Room({ id, name, userId }: props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [showChat, setShowChat] = useState(false);
+  const [unread, setUnread] = useState(false);
   const { data, loading } = useQuery<GET_ROOM_TYPE>(GET_ROOM, {
     variables: { id },
+    pollInterval: 1*1000
   });
-
-  const navigation =
-    useNavigation<StackNavigationProp<HomeStackParamsList, "Home">>();
 
   const addMessage = useCallback((message: Message) => {
     setMessages((o) => [...o, message]);
@@ -29,23 +30,30 @@ export default function Room({ id, name }: props) {
 
   const handleClick = useCallback(() => {
     setShowChat(true);
-    //navigation.navigate("Chat", { id, messages });
   }, []);
 
   useEffect(() => {
     if (!data?.room.messages) return;
     setMessages(data?.room.messages);
-  }, [data]);
+  }, [data?.room.messages]);
+
+  useEffect(()=>{
+    if(showChat) setUnread(false);
+  }, [showChat]);
 
   return (
     <Pressable onPress={handleClick}>
       <View style={styles.container}>
-        <Image
-          style={styles.roomPic}
-          source={{
-            uri: data?.room.roomPic || undefined,
-          }}
-        />
+        {data?.room.roomPic ? (
+          <Image
+            style={styles.roomPic}
+            source={{
+              uri: data?.room.roomPic || undefined,
+            }}
+          />
+        ) : (
+          <DefaultProfilePic />
+        )}
         <View style={styles.right}>
           <Text style={styles.name} numberOfLines={1}>
             {name}
@@ -56,8 +64,13 @@ export default function Room({ id, name }: props) {
           </Text>
         </View>
       </View>
-      <Modal visible={showChat} onRequestClose={()=>setShowChat(false)} >
-        <Chat id={id} messages={messages} addMessage={addMessage} />
+      <Modal visible={showChat} onRequestClose={() => setShowChat(false)} animationType="slide" >
+        <Chat
+          id={id}
+          messages={messages}
+          addMessage={addMessage}
+          userId={userId}
+        />
       </Modal>
     </Pressable>
   );

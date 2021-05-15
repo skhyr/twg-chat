@@ -1,7 +1,5 @@
-import { RouteProp, useRoute } from "@react-navigation/core";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { HomeStackParamsList } from "../types/homeStackParams";
 import { GiftedChat } from "react-native-gifted-chat";
 import { Message } from "../types/api";
 import { useMutation } from "@apollo/client";
@@ -22,10 +20,10 @@ interface props{
   id: string,
   messages: Message[],
   addMessage:(message: Message)=>void,
+  userId: string,
 }
 
-export default function Chat({id: roomId, messages, addMessage}:props) {
-  const route = useRoute<RouteProp<HomeStackParamsList, "Chat">>();
+export default function Chat({id: roomId, messages, addMessage, userId}:props) {
   const [sendMessage, { data }] = useMutation(SEND_MESSAGE);
 
   const onSend = useCallback((newMessagesGifted: giftedMessage[] = []) => {
@@ -44,7 +42,7 @@ export default function Chat({id: roomId, messages, addMessage}:props) {
       <GiftedChat
         messages={messagesToGiftedChat(messages)}
         onSend={(newMessages) => onSend(newMessages)}
-        user={{ _id: 1 }}
+        user={{ _id: userId }}
       />
     </View>
   );
