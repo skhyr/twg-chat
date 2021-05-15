@@ -1,10 +1,12 @@
 import { useQuery } from "@apollo/client";
-import React from "react";
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import React, { useState, useCallback, useEffect } from "react";
+import { StyleSheet, Text, View, Image, Pressable, Modal } from "react-native";
 import { GET_ROOM, GET_ROOM_TYPE } from "../queries/getRoom";
-import { useNavigation} from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/core";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { HomeStackParamsList } from "../types/homeStackParams";
+import { Message } from "../types/api";
+import Chat from "../screens/Chat";
 
 interface props {
   id: string;
@@ -12,6 +14,8 @@ interface props {
 }
 
 export default function Room({ id, name }: props) {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [showChat, setShowChat] = useState(false);
   const { data, loading } = useQuery<GET_ROOM_TYPE>(GET_ROOM, {
     variables: { id },
   });
@@ -19,8 +23,22 @@ export default function Room({ id, name }: props) {
   const navigation =
     useNavigation<StackNavigationProp<HomeStackParamsList, "Home">>();
 
+  const addMessage = useCallback((message: Message) => {
+    setMessages((o) => [...o, message]);
+  }, []);
+
+  const handleClick = useCallback(() => {
+    setShowChat(true);
+    //navigation.navigate("Chat", { id, messages });
+  }, []);
+
+  useEffect(() => {
+    if (!data?.room.messages) return;
+    setMessages(data?.room.messages);
+  }, [data]);
+
   return (
-    <Pressable onPress={()=>navigation.navigate("Chat", {id, messages: data?.room.messages || []})} >
+    <Pressable onPress={handleClick}>
       <View style={styles.container}>
         <Image
           style={styles.roomPic}
@@ -38,6 +56,9 @@ export default function Room({ id, name }: props) {
           </Text>
         </View>
       </View>
+      <Modal visible={showChat} onRequestClose={()=>setShowChat(false)} >
+        <Chat id={id} messages={messages} addMessage={addMessage} />
+      </Modal>
     </Pressable>
   );
 }

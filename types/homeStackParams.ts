@@ -1,9 +1,9 @@
 import { Message } from "./api";
 
 export type HomeStackParamsList = {
-  Home: undefined,
+  Home: undefined;
   Chat: {
-    id: string,
-    messages: Message[],
-  },
+    id: string;
+    messages: Message[];
+  };
 };

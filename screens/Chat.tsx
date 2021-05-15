@@ -18,17 +18,25 @@ interface giftedMessage {
   };
 }
 
-export default function Chat() {
+interface props{
+  id: string,
+  messages: Message[],
+  addMessage:(message: Message)=>void,
+}
+
+export default function Chat({id: roomId, messages, addMessage}:props) {
   const route = useRoute<RouteProp<HomeStackParamsList, "Chat">>();
-  const [messages, setMessages] = useState<Message[]>(route.params.messages);
   const [sendMessage, { data }] = useMutation(SEND_MESSAGE);
 
   const onSend = useCallback((newMessagesGifted: giftedMessage[] = []) => {
-    newMessagesGifted.forEach((gm) =>{
-      sendMessage({ variables: { body: gm.text, roomId: route.params.id } })
-      .then(res=>console.log(res))
-    }
-      );
+    newMessagesGifted.forEach((gm) => {
+      sendMessage({
+        variables: { body: gm.text, roomId },
+      }).then((res) => {
+        console.log(res.data.sendMessage);
+        addMessage(res.data.sendMessage);
+      });
+    });
   }, []);
 
   return (

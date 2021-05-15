@@ -8,9 +8,8 @@ import { HomeStackParamsList } from '../types/homeStackParams'
 const Stack = createStackNavigator<HomeStackParamsList>();
 
 const HomeStackNavigator = () => (
-  <Stack.Navigator screenOptions={{ header: () => <HomeHeader /> }}>
+  <Stack.Navigator screenOptions={{ header: () => <HomeHeader /> }} >
     <Stack.Screen name="Home" component={Home} />
-    <Stack.Screen name="Chat" component={Chat} />
   </Stack.Navigator>
 );
 
