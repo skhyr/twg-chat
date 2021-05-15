@@ -21,6 +21,7 @@ export default function App() {
     "Poppins-700": require("./assets/fonts/Poppins/Poppins-Bold.ttf"),
     "Poppins-800": require("./assets/fonts/Poppins/Poppins-ExtraBold.ttf"),
     "Poppins-900": require("./assets/fonts/Poppins/Poppins-Black.ttf"),
+    "SFCompactText": require("./assets/fonts/SFCompactText.ttf"),
   });
 
   if (isLoading || !fontsLoaded)

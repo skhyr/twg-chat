@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { GiftedChat } from "react-native-gifted-chat";
+import { Bubble, GiftedChat } from "react-native-gifted-chat";
 import { Message } from "../types/api";
 import { useMutation } from "@apollo/client";
 import { SEND_MESSAGE } from "../queries/sendMessage";
@@ -16,14 +16,19 @@ interface giftedMessage {
   };
 }
 
-interface props{
-  id: string,
-  messages: Message[],
-  addMessage:(message: Message)=>void,
-  userId: string,
+interface props {
+  id: string;
+  messages: Message[];
+  addMessage: (message: Message) => void;
+  userId: string;
 }
 
-export default function Chat({id: roomId, messages, addMessage, userId}:props) {
+export default function Chat({
+  id: roomId,
+  messages,
+  addMessage,
+  userId,
+}: props) {
   const [sendMessage, { data }] = useMutation(SEND_MESSAGE);
 
   const onSend = useCallback((newMessagesGifted: giftedMessage[] = []) => {
@@ -43,6 +48,41 @@ export default function Chat({id: roomId, messages, addMessage, userId}:props) {
         messages={messagesToGiftedChat(messages)}
         onSend={(newMessages) => onSend(newMessages)}
         user={{ _id: userId }}
+        renderBubble={(props) => (
+          <Bubble
+            {...props}
+            renderTime={()=><View/>}
+            wrapperStyle={{
+              right: {
+                backgroundColor: "#993AFC",
+                width: "65%",
+                borderRadius: 12,
+                borderBottomRightRadius: 0,
+                padding: 5,
+                marginRight: 16,
+                marginVertical: 6,
+              },
+              left: {
+                marginVertical: 6,
+                borderRadius: 12,
+                borderBottomLeftRadius: 0,
+                backgroundColor: "#FFFFFF",
+                width: "80%",
+                padding: 5,
+              },
+            }}
+            textStyle={{
+              right: {
+                fontFamily: "SFCompactText",
+                fontSize: 14,
+              },
+              left: {
+                fontFamily: "SFCompactText",
+                fontSize: 14,
+              },
+            }}
+          />
+        )}
       />
     </View>
   );
