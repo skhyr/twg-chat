@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Composer, GiftedChat, Send } from "react-native-gifted-chat";
+import { GiftedChat, Send } from "react-native-gifted-chat";
 import { Message } from "../types/api";
 import { useMutation } from "@apollo/client";
 import { SEND_MESSAGE } from "../queries/sendMessage";
@@ -10,12 +10,15 @@ import GiftedBubble from "../components/GiftedBubble";
 import messagesToGiftedChat from "../utils/messagesToGiftedChat";
 import { giftedMessage } from "../types/giftedMessage";
 import GiftedComposer from "../components/GiftedComposer";
+import ChatHeader from "../components/ChatHeader";
 
 interface props {
   id: string;
   messages: Message[];
   addMessage: (message: Message) => void;
   userId: string;
+  name: string;
+  roomPic: string;
 }
 
 export default function Chat({
@@ -23,6 +26,8 @@ export default function Chat({
   messages,
   addMessage,
   userId,
+  name,
+  roomPic,
 }: props) {
   const [sendMessage] = useMutation(SEND_MESSAGE);
 
@@ -36,23 +41,27 @@ export default function Chat({
 
   return (
     <View style={styles.container}>
+      <ChatHeader name={name} roomPic={roomPic} active={"Active now"} />
       <GiftedChat
         alwaysShowSend
-        placeholder=''
+        placeholder=""
         messages={messagesToGiftedChat(messages)}
         onSend={(newMessages) => onSend(newMessages)}
         user={{ _id: userId }}
         renderSend={(props) => (
-          <Send {...props} containerStyle={{
-            marginHorizontal: 10,
-          }}>
+          <Send
+            {...props}
+            containerStyle={{
+              marginHorizontal: 10,
+            }}
+          >
             <SendIcon />
           </Send>
         )}
         renderInputToolbar={GiftedInputToolbar}
         renderBubble={GiftedBubble}
         renderComposer={GiftedComposer}
-        renderFooter={()=>(<View style={styles.footer} ></View>)}
+        renderFooter={() => <View style={styles.footer}></View>}
       />
     </View>
   );
@@ -63,9 +72,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: "#F0F8FF",
-    paddingTop: 18,
   },
-  footer:{
+  footer: {
     height: 24,
-  }
+  },
 });

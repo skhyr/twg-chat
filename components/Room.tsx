@@ -71,6 +71,8 @@ export default function Room({ id, name, userId }: props) {
           messages={messages}
           addMessage={addMessage}
           userId={userId}
+          name={name}
+          roomPic={data?.room.roomPic || ""}
         />
       </Modal>
     </Pressable>

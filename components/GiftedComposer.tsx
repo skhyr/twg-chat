@@ -1,7 +1,6 @@
 import React from "react";
 import { Composer } from "react-native-gifted-chat";
 
-
 export default function GiftedComposer(props: any) {
   return (
     <Composer

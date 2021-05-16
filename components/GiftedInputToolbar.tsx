@@ -12,8 +12,8 @@ export default function GiftedInputToolbar(props: any) {
         borderTopWidth: 0,
       }}
       primaryStyle={{
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
       }}
     />
   );
