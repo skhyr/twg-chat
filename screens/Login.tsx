@@ -2,14 +2,26 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput, Pressable, Button } from "react-native";
 import VisionIcon from "../assets/vision.svg";
 import VisionLowIcon from "../assets/vision-low.svg";
-import { visitWithTypeInfo } from "graphql";
+import { useMutation } from "@apollo/client";
+import { LOGIN } from "../queries/login";
 
 export default function Login() {
   const [visible, setVisible] = useState(false);
+  const [email, setEmail] = useState('bernadette@mail.com');
+  const [password, setPassword] = useState('mmNNbbVVcczxA12!@BB');
+
+  const [login, {loading: mutationLoading}] = useMutation(LOGIN);
+
 
   const handleClick = () => {
     setVisible(!visible);
   };
+
+  const handleLogin = () =>{
+    login({variables:{ email, password }}).then(res=>{
+      console.log(res.data.loginUser.token);
+    })
+  }
 
   return (
     <View style={styles.container}>
@@ -23,20 +35,20 @@ export default function Login() {
       <View>
         <Text style={styles.label}>e-mail address</Text>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.input} />
+          <TextInput style={styles.input} value={email} onChangeText={e=>setEmail(e)} />
         </View>
 
         <Text style={styles.label}>password</Text>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.input} secureTextEntry={!visible} />
+          <TextInput style={styles.input} secureTextEntry={!visible} value={password} onChangeText={e=>setPassword(e)}/>
           <Pressable onPress={handleClick}>
             {visible ? <VisionLowIcon /> : <VisionIcon />}
           </Pressable>
         </View>
       </View>
 
-      <Pressable onPress={()=>{}} style={styles.button}>
-        <Text style={styles.buttonText}>Log in</Text>
+      <Pressable onPress={handleLogin} style={styles.button} disabled={mutationLoading} >
+        <Text style={styles.buttonText}>{mutationLoading ?  'loading...' : 'Log in'}</Text>
       </Pressable>
 
     </View>
