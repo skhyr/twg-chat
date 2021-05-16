@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     color: "#5603AD",
     fontSize: 36,
     fontFamily: "Poppins-700",
-    lineHeight: 45
+    lineHeight: 45,
   },
   icon: {
     height: 44,

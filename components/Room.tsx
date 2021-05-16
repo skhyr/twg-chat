@@ -2,9 +2,6 @@ import { useQuery } from "@apollo/client";
 import React, { useState, useCallback, useEffect } from "react";
 import { StyleSheet, Text, View, Image, Pressable, Modal } from "react-native";
 import { GET_ROOM, GET_ROOM_TYPE } from "../queries/getRoom";
-import { useNavigation } from "@react-navigation/core";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { HomeStackParamsList } from "../types/homeStackParams";
 import { Message } from "../types/api";
 import Chat from "../screens/Chat";
 import DefaultProfilePic from "../assets/profile.svg";
@@ -21,7 +18,7 @@ export default function Room({ id, name, userId }: props) {
   const [unread, setUnread] = useState(false);
   const { data, loading } = useQuery<GET_ROOM_TYPE>(GET_ROOM, {
     variables: { id },
-    pollInterval: 1*1000
+    pollInterval: 1 * 1000,
   });
 
   const addMessage = useCallback((message: Message) => {
@@ -37,8 +34,8 @@ export default function Room({ id, name, userId }: props) {
     setMessages(data?.room.messages);
   }, [data?.room.messages]);
 
-  useEffect(()=>{
-    if(showChat) setUnread(false);
+  useEffect(() => {
+    if (showChat) setUnread(false);
   }, [showChat]);
 
   return (
@@ -64,7 +61,11 @@ export default function Room({ id, name, userId }: props) {
           </Text>
         </View>
       </View>
-      <Modal visible={showChat} onRequestClose={() => setShowChat(false)} animationType="slide" >
+      <Modal
+        visible={showChat}
+        onRequestClose={() => setShowChat(false)}
+        animationType="slide"
+      >
         <Chat
           id={id}
           messages={messages}
