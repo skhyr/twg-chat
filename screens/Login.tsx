@@ -1,27 +1,33 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Pressable, Button } from "react-native";
+import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import VisionIcon from "../assets/vision.svg";
 import VisionLowIcon from "../assets/vision-low.svg";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../queries/login";
 
-export default function Login() {
+interface props {
+  setToken: (token: string) => void;
+}
+
+export default function Login({ setToken }: props) {
   const [visible, setVisible] = useState(false);
-  const [email, setEmail] = useState('bernadette@mail.com');
-  const [password, setPassword] = useState('mmNNbbVVcczxA12!@BB');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [login, {loading: mutationLoading}] = useMutation(LOGIN);
-
+  const [login, { loading: mutationLoading }] = useMutation(LOGIN);
 
   const handleClick = () => {
     setVisible(!visible);
   };
 
-  const handleLogin = () =>{
-    login({variables:{ email, password }}).then(res=>{
+  const handleLogin = () => {
+    login({ variables: { email, password } }).then((res) => {
       console.log(res.data.loginUser.token);
-    })
-  }
+      setEmail("");
+      setPassword("");
+      setToken("eeeee");
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -35,22 +41,36 @@ export default function Login() {
       <View>
         <Text style={styles.label}>e-mail address</Text>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.input} value={email} onChangeText={e=>setEmail(e)} />
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={(e) => setEmail(e)}
+          />
         </View>
 
         <Text style={styles.label}>password</Text>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.input} secureTextEntry={!visible} value={password} onChangeText={e=>setPassword(e)}/>
+          <TextInput
+            style={styles.input}
+            secureTextEntry={!visible}
+            value={password}
+            onChangeText={(e) => setPassword(e)}
+          />
           <Pressable onPress={handleClick}>
             {visible ? <VisionLowIcon /> : <VisionIcon />}
           </Pressable>
         </View>
       </View>
 
-      <Pressable onPress={handleLogin} style={styles.button} disabled={mutationLoading} >
-        <Text style={styles.buttonText}>{mutationLoading ?  'loading...' : 'Log in'}</Text>
+      <Pressable
+        onPress={handleLogin}
+        style={styles.button}
+        disabled={mutationLoading}
+      >
+        <Text style={styles.buttonText}>
+          {mutationLoading ? "loading..." : "Log in"}
+        </Text>
       </Pressable>
-
     </View>
   );
 }
@@ -95,18 +115,18 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
   },
-  button:{
-    backgroundColor: '#5603AD',
-    alignItems: 'center',
-    justifyContent: 'center',
+  button: {
+    backgroundColor: "#5603AD",
+    alignItems: "center",
+    justifyContent: "center",
     height: 63,
     borderRadius: 10,
     width: 241,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
-  buttonText:{
-    color: 'white',
+  buttonText: {
+    color: "white",
     fontSize: 19,
-    fontFamily: 'Poppins-600',
-  }
+    fontFamily: "Poppins-600",
+  },
 });

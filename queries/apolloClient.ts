@@ -1,27 +1,3 @@
-/*import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import { TOKEN } from '@env'
-
-const httpLink = createHttpLink({
-  uri: 'https://chat.thewidlarzgroup.com/api/graphql',
-});
-
-const authLink = setContext((_, { headers }) => {
-  const token = TOKEN;
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    }
-  }
-});
-
-export default new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
-});
-*/
-
 import ApolloClient from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { setContext } from "apollo-link-context";
@@ -75,5 +51,5 @@ const link = split(
 
 export default new ApolloClient({
   link,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache()
 });

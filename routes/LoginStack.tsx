@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 
 const LoginStackNavigator = () => (
   <Stack.Navigator screenOptions={{ header: () => <View></View> }} >
-    <Stack.Screen name="Login" component={Login}  />
+    <Stack.Screen name="Login" component={Login} />
   </Stack.Navigator>
 );
 
