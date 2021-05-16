@@ -9,7 +9,7 @@ import { useFonts } from "expo-font";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
-  const [token, setToken] = useState(true);
+  const [token, setToken] = useState(false);
 
   const [fontsLoaded] = useFonts({
     "Poppins-100": require("./assets/fonts/Poppins/Poppins-Thin.ttf"),

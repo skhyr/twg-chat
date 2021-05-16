@@ -1,20 +1,100 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { StyleSheet, Text, View, TextInput, Pressable, Button } from "react-native";
+import VisionIcon from "../assets/vision.svg";
+import VisionLowIcon from "../assets/vision-low.svg";
+import { visitWithTypeInfo } from "graphql";
 
 export default function Login() {
+  const [visible, setVisible] = useState(false);
+
+  const handleClick = () => {
+    setVisible(!visible);
+  };
 
   return (
-      <View style={styles.container}>
-        <Text>Login Page</Text>
+    <View style={styles.container}>
+      <View>
+        <Text style={styles.title}>Welcome back</Text>
+        <Text style={styles.subtitle}>
+          Log in and stay in touch with everyone!
+        </Text>
       </View>
+
+      <View>
+        <Text style={styles.label}>e-mail address</Text>
+        <View style={styles.inputContainer}>
+          <TextInput style={styles.input} />
+        </View>
+
+        <Text style={styles.label}>password</Text>
+        <View style={styles.inputContainer}>
+          <TextInput style={styles.input} secureTextEntry={!visible} />
+          <Pressable onPress={handleClick}>
+            {visible ? <VisionLowIcon /> : <VisionIcon />}
+          </Pressable>
+        </View>
+      </View>
+
+      <Pressable onPress={()=>{}} style={styles.button}>
+        <Text style={styles.buttonText}>Log in</Text>
+      </Pressable>
+
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#B6DEFD",
+    color: "white",
+    padding: 20,
+    paddingTop: 76,
+    paddingBottom: 87,
+    justifyContent: "space-between",
+  },
+  title: {
+    fontSize: 36,
+    fontFamily: "Poppins-700",
+    color: "#5603AD",
+  },
+  subtitle: {
+    fontSize: 22,
+    fontFamily: "Poppins-700",
+    color: "white",
+  },
+  inputContainer: {
+    backgroundColor: "white",
+    padding: 12,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 18,
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    fontFamily: "Poppins-400",
+  },
+  vision: {
+    marginLeft: 10,
+  },
+  label: {
+    color: "white",
+    fontSize: 16,
+  },
+  button:{
+    backgroundColor: '#5603AD',
     alignItems: 'center',
     justifyContent: 'center',
+    height: 63,
+    borderRadius: 10,
+    width: 241,
+    alignSelf: 'center',
   },
+  buttonText:{
+    color: 'white',
+    fontSize: 19,
+    fontFamily: 'Poppins-600',
+  }
 });

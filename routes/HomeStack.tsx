@@ -1,7 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "../screens/Home";
-import Chat from "../screens/Chat";
 import HomeHeader from "../components/HomeHeader";
 import { HomeStackParamsList } from '../types/homeStackParams'
 
